@@ -2,9 +2,11 @@
 
 Prototipo autónomo de una landing de pantalla completa inspirado en el vídeo de
 referencia. Las palabras forman una superficie tipográfica fija que ocupa toda
-la pantalla, mientras algunas alternan entre negro y rojo. La retícula, el grano,
-el tamaño y el peso permanecen inmóviles. No utiliza el vídeo original, no
-requiere librerías y no tiene scroll.
+la pantalla. Los términos negativos aparecen en rojo y el resto conserva
+una animación cruzada entre negro y transparencia. La retícula, el grano, el
+tamaño y el peso permanecen inmóviles; tampoco se permite el zoom del
+navegador. No utiliza el vídeo original, no requiere librerías y no tiene
+scroll.
 
 ## Personalización rápida
 

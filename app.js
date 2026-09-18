@@ -12,6 +12,11 @@
     'PARTICIPACIÓN', 'FUTURO', 'MEMORIA', 'DIGNIDAD', 'CAMBIO'
   ];
 
+  const negativeWords = new Set([
+    'IMPUESTOS', 'CORRUPCIÓN', 'IMPUNIDAD', 'NEPOTISMO',
+    'PRIVILEGIOS', 'CENSURA', 'ABUSO'
+  ]);
+
   let width = 0;
   let height = 0;
   let dpr = 1;
@@ -46,8 +51,7 @@
           word,
           size: fontSize + (seeded(index + 4) > 0.86 ? 1 : 0),
           shade: 0.22 + seeded(index) * 0.7,
-          phase: seeded(index + 9) * Math.PI * 2,
-          accent: index % 47 === 0
+          phase: index % 2 === 0 ? 0 : Math.PI
         });
         x += approxWidth;
         index += 1;
@@ -56,7 +60,7 @@
   }
 
   function draw(time = 0) {
-    const t = reducedMotion ? 0 : time * 0.001;
+    const t = time * 0.001;
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.fillStyle = '#ebe9e3';
@@ -65,10 +69,13 @@
 
     for (let i = 0; i < tiles.length; i += 1) {
       const tile = tiles[i];
-      const alpha = tile.shade;
+      const negative = negativeWords.has(tile.word);
+      const wave = reducedMotion ? tile.shade : 0.5 + 0.5 * Math.sin(t * 0.72 + tile.phase);
+      const fade = wave * wave * (3 - 2 * wave);
+      const alpha = negative ? 0.78 : 0.04 + fade * 0.9;
 
       ctx.font = `500 ${tile.size}px "IBM Plex Mono", monospace`;
-      ctx.fillStyle = tile.accent && Math.sin(t * 0.7 + tile.phase) > 0.75
+      ctx.fillStyle = negative
         ? `rgba(216,47,39,${alpha})`
         : `rgba(21,21,21,${alpha})`;
       ctx.fillText(tile.word, tile.x, tile.y);

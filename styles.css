@@ -22,6 +22,7 @@ body {
   color: var(--ink);
   background: var(--paper);
   font-family: Inter, Arial, sans-serif;
+  touch-action: manipulation;
 }
 
 .hero {
