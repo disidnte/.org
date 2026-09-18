@@ -1,15 +1,17 @@
 # Hero tipográfico para disidente.org
 
-Prototipo autónomo de una landing de pantalla completa, inspirado en el vídeo
-de referencia. Las palabras funcionan como píxeles y forman un perfil humano
-animado. No utiliza el vídeo original, no requiere librerías y no tiene scroll.
+Prototipo autónomo de una landing de pantalla completa inspirado en el vídeo de
+referencia. Las palabras forman una superficie tipográfica fija que ocupa toda
+la pantalla, mientras algunas alternan entre negro y rojo. La retícula, el grano,
+el tamaño y el peso permanecen inmóviles. No utiliza el vídeo original, no
+requiere librerías y no tiene scroll.
 
 ## Personalización rápida
 
 - Vocabulario: editar `words` al inicio de `app.js`.
 - Colores: editar las variables de `:root` en `styles.css`.
-- Titular y texto: editar `index.html`.
-- Silueta: modificar `portraitPath()` en `app.js`.
+- Densidad y tamaño del texto: editar `stepY` y `fontSize` en `app.js`.
+- Favicon: `favicon-32.png`, `favicon.png` y `apple-touch-icon.png`.
 
 ## Integración
 
