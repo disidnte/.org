@@ -1,40 +1,215 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-    />
-    <meta
-      name="description"
-      content="Prototipo tipográfico para disidente.org con palabras que ocupan toda la pantalla."
-    />
-    <title>Disidente</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="favicon.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="hero">
-      <canvas class="word-portrait" aria-hidden="true"></canvas>
-      <div class="grain" aria-hidden="true"></div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="DISIDENTE: nada está fuera de duda.">
+  <meta name="theme-color" content="#050505">
+  <title>DISIDENTE</title>
+  <link rel="icon" href="./favicon.ico" sizes="any">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180">
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #050505;
+      --text: #ededed;
+      --muted: #3f4340;
+      --white: #ffffff;
+    }
 
-      <p class="sr-only">
-        Libertad, impuestos, corrupción, impunidad, nepotismo, justicia,
-        poder, verdad, ciudadanía, democracia, transparencia, privilegios,
-        censura, igualdad, soberanía, derechos, abuso, instituciones,
-        responsabilidad, participación, futuro, memoria y dignidad.
-      </p>
-    </main>
+    * { box-sizing: border-box; }
 
-    <script src="app.js"></script>
-  </body>
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 16px;
+      line-height: 1.35;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    a:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
+
+    .site {
+      display: flex;
+      flex-direction: column;
+      width: min(calc(100% - 5rem), 72rem);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 4.8rem 0 3rem;
+    }
+
+    .brand {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .brand::before { content: "> "; color: var(--white); }
+
+    .brand-text {
+      display: inline-block;
+      width: 0;
+      overflow: hidden;
+      vertical-align: bottom;
+      white-space: nowrap;
+      border-right: 2px solid var(--white);
+      animation:
+        type-brand 1.15s steps(9, end) .25s forwards,
+        blink-cursor .72s step-end infinite;
+    }
+
+    @keyframes type-brand {
+      from { width: 0; }
+      to { width: 9ch; }
+    }
+
+    @keyframes blink-cursor {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: var(--white); }
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: .75rem;
+      color: var(--muted);
+    }
+
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .statement {
+      margin-top: clamp(4rem, 9vh, 6.5rem);
+      max-width: 58rem;
+      font-size: clamp(1.15rem, 2vw, 1.65rem);
+      line-height: 1.45;
+    }
+
+    .statement p { margin: 0; }
+    .statement .prompt,
+    .statement-meta { color: var(--muted); }
+    .statement .statement-meta {
+      margin-top: .9rem;
+      font-size: 1rem;
+    }
+
+    .archive { margin-top: clamp(4rem, 8vh, 6rem); }
+
+    .post {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 12rem;
+      gap: 3rem;
+      padding: .22rem 0;
+      color: var(--white);
+      font-size: clamp(1rem, 1.3vw, 1.08rem);
+      line-height: 1.55;
+      text-decoration: none;
+    }
+
+    .date { text-align: right; }
+
+    .pagination {
+      margin-top: 2rem;
+      color: var(--muted);
+    }
+
+    .pagination p { margin: .25rem 0; }
+
+    footer {
+      margin-top: auto;
+      padding-top: clamp(5rem, 14vh, 9rem);
+      color: var(--muted);
+    }
+
+    footer p { margin: .25rem 0; }
+    .footer-meta { font-size: .88rem; }
+
+    footer a {
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .brand-text {
+        width: auto;
+        border-right: 0;
+        animation: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 15px; }
+      .site { width: min(calc(100% - 2rem), 38rem); padding-top: 2.5rem; }
+      .statement { margin-top: 4rem; font-size: 1.05rem; }
+      .archive { margin-top: 3.5rem; }
+      .post { grid-template-columns: 1fr; gap: 0; padding: .55rem 0; }
+      .date { color: var(--muted); text-align: left; font-size: .82rem; }
+      footer { padding-top: 6rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="site">
+    <header>
+      <p class="brand"><span class="brand-text">DISIDENTE</span></p>
+      <nav aria-label="Navegación principal">
+        <span>$pages = [</span>
+        <a href="/">Editorial</a>
+        <a href="#archivo">Archivo</a>
+        <a href="#principios">Principios</a>
+        <a href="#acerca">Acerca</a>
+        <span>];</span>
+      </nav>
+    </header>
+
+    <section id="principios" class="statement" aria-label="Principio editorial">
+      <p><span class="prompt">$principio = </span>"Cuestionar todo. Incluso a nosotros mismos.";</p>
+      <p class="statement-meta">$financiacion_gubernamental = false;</p>
+    </section>
+
+    <section id="archivo" class="archive" aria-label="Publicaciones">
+      <a class="post" href="#"><span class="title">La pregunta que incomoda a nuestro propio bando</span><time class="date">26.09.19 03:30</time></a>
+      <a class="post" href="#"><span class="title">¿Quién vigila a quienes dicen vigilar el poder?</span><time class="date">26.09.18 22:14</time></a>
+      <a class="post" href="#"><span class="title">La obediencia también tiene incentivos</span><time class="date">26.09.17 19:08</time></a>
+      <a class="post" href="#"><span class="title">Corregir no es perder autoridad</span><time class="date">26.09.16 12:41</time></a>
+      <a class="post" href="#"><span class="title">La libertad que solamente defendemos cuando conviene</span><time class="date">26.09.15 08:03</time></a>
+      <a class="post" href="#"><span class="title">El precio invisible de pedir permiso</span><time class="date">26.09.14 07:46</time></a>
+      <a class="post" href="#"><span class="title">Nada está fuera de duda</span><time class="date">26.09.13 02:23</time></a>
+
+      <div class="pagination" aria-label="Paginación">
+        <p>$previous = ;</p>
+        <p>$next = ;</p>
+      </div>
+    </section>
+
+    <footer id="acerca">
+      <p><span>independencia_editorial( </span><a href="/">"DISIDENTE"</a><span> );</span></p>
+      <p class="footer-meta">disidente.org / DISIDENTE GROUP</p>
+    </footer>
+  </main>
+  <script>
+    document.addEventListener("keydown", (event) => {
+      if ((event.ctrlKey || event.metaKey) && ["+", "=", "-", "0"].includes(event.key)) {
+        event.preventDefault();
+      }
+    });
+
+    window.addEventListener("wheel", (event) => {
+      if (event.ctrlKey || event.metaKey) event.preventDefault();
+    }, { passive: false });
+
+    ["gesturestart", "gesturechange", "gestureend"].forEach((gesture) => {
+      document.addEventListener(gesture, (event) => event.preventDefault(), { passive: false });
+    });
+  </script>
+</body>
 </html>
